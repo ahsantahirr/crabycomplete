@@ -797,7 +797,8 @@ function resetBeachItems() {
         class="translate-transform absolute bottom-[8vh] left-[0vw] flex flex-col items-center bg-white border-[5px] border-[#FDBA74] rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="recyclable"
-        data-fact="Plastic bottles can take 450 years to break down!"
+        data-fact="Soda Can (Aluminum): Lasts 200–500 years! But the good news is it can be recycled forever.
+            "
       >
         <img
           src="./assets/firstmodule/can.png"
@@ -844,7 +845,8 @@ function resetBeachItems() {
         class="translate-transform absolute bottom-[12vh] left-[30vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="trash"
-        data-fact="Soda rings can get stuck around animals' necks!"
+        data-fact="Diaper: Never breaks down and can leak harmful chemicals that hurt fish and ocean animals.
+            "
       >
         <img
           src="./assets/firstmodule/diaper.png"
@@ -858,7 +860,9 @@ function resetBeachItems() {
         class="translate-transform absolute left-[30vw] md:top-[12vh] md:left-[24vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="trash"
-        data-fact="Sharp edges can hurt curious animals!"
+        data-fact="
+            Fish Bones: Gone in just a few weeks — they even give nutrients back to nature!
+            "
       >
         <img
           src="./assets/firstmodule/fishbone.png"
@@ -872,7 +876,8 @@ function resetBeachItems() {
         class="translate-transform absolute bottom-[18vh] left-[40vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="compost"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="Apple Core: Takes about 2 months to break down.
+            "
       >
         <img
           src="./assets/firstmodule/apple.png"
@@ -886,7 +891,9 @@ function resetBeachItems() {
         class="translate-transform absolute bottom-[5vh] left-[50vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="compost"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="
+            Carrot: Can rot in water and uses up oxygen, which makes it harder for fish to breathe.
+            "
       >
         <img
           src="./assets/firstmodule/carrot.png"
@@ -900,7 +907,9 @@ function resetBeachItems() {
         class="translate-transform absolute bottom-[22vh] left-[60vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="compost"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="Banana Peel: Breaks down in 2–5 weeks.
+
+            "
       >
         <img
           src="./assets/firstmodule/banana.png"
@@ -913,8 +922,10 @@ function resetBeachItems() {
       <div
         class="translate-transform absolute bottom-[15vh] left-[70vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
-        data-type="trash"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-type="recyclable"
+        data-fact="
+            Plastic Baby Bottle / Feeder: Sea turtles can mistake it for food and choke.
+            "
       >
         <img
           src="./assets/firstmodule/feder.png"
@@ -928,7 +939,7 @@ function resetBeachItems() {
         class="translate-transform absolute sm:bottom-[12vh] sm:left-[85vw] bottom-[9vh] left-[70vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="trash"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="Candy Wrapper (plastic or foil): Can last 10–20 years and might never fully go away."
       >
         <img
           src="./assets/firstmodule/toffee.png"
@@ -942,7 +953,8 @@ function resetBeachItems() {
         class="translate-transform absolute left-[50vw] md:top-[10vh] md:left-[65vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="trash"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="Paper / Newspaper: Breaks down quickly, but soggy paper can stick to animals or cover coral so plants can’t get sunlight.
+            "
       >
         <img
           src="./assets/firstmodule/paper.png"
@@ -956,7 +968,8 @@ function resetBeachItems() {
         class="translate-transform absolute top-[-4vh] md:top-[12vh] sm:left-[75vw] left-[60vw] flex flex-col items-center bg-white border-2 border-orange-400 rounded-full p-4 cursor-grab transition-all duration-300 shadow-md hover:scale-105 hover:shadow-lg active:cursor-grabbing z-20"
         draggable="true"
         data-type="recyclable"
-        data-fact="These can get stuck in sea creatures' noses!"
+        data-fact="Plastic Water Bottle: Takes about 450 years to break down!
+            "
       >
         <img
           src="./assets/firstmodule/bottle.png"
