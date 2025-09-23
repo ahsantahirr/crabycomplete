@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupDragAndDrop();
   setupTouchSupport();
   updateProgressDisplay();
+  setupSliderCursor();
 
   // Debug: Validate the count of draggable items
   const draggableItems = document.querySelectorAll('[draggable="true"]');
@@ -1096,6 +1097,147 @@ function showResetConfirmationModal() {
   document.body.appendChild(modal);
 }
 
+// Temperature Slider Drag Functions
+function startSliderDrag(event) {
+  event.preventDefault();
+  
+  isDraggingSlider = true;
+  sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!sliderContainer) return;
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Get initial position
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  
+  if (event.type === 'mousedown') {
+    sliderStartY = event.clientY;
+  } else if (event.type === 'touchstart') {
+    sliderStartY = event.touches[0].clientY;
+  }
+  
+  sliderStartTop = handleRect.top - rect.top;
+  
+  // Add event listeners
+  document.addEventListener('mousemove', handleSliderDrag);
+  document.addEventListener('mouseup', stopSliderDrag);
+  document.addEventListener('touchmove', handleSliderDrag, { passive: false });
+  document.addEventListener('touchend', stopSliderDrag);
+  
+  // Add visual feedback
+  handle.style.transition = 'none';
+  handle.style.transform = 'scale(1.1) translateX(-50%)';
+}
+
+function handleSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  event.preventDefault();
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  let currentY;
+  
+  if (event.type === 'mousemove') {
+    currentY = event.clientY;
+  } else if (event.type === 'touchmove') {
+    currentY = event.touches[0].clientY;
+  }
+  
+  const deltaY = currentY - sliderStartY;
+  const newTop = sliderStartTop + deltaY;
+  
+  // Constrain to slider bounds
+  const minTop = 20; // top-5 equivalent
+  const maxTop = rect.height - 36; // bottom-5 equivalent (20px from bottom)
+  
+  const constrainedTop = Math.max(minTop, Math.min(maxTop, newTop));
+  
+  // Update handle position
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    handle.style.top = `${constrainedTop}px`;
+  }
+}
+
+function stopSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  isDraggingSlider = false;
+  
+  // Remove event listeners
+  document.removeEventListener('mousemove', handleSliderDrag);
+  document.removeEventListener('mouseup', stopSliderDrag);
+  document.removeEventListener('touchmove', handleSliderDrag);
+  document.removeEventListener('touchend', stopSliderDrag);
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Reset visual feedback
+  handle.style.transition = 'all 0.3s ease';
+  handle.style.transform = 'translateX(-50%)';
+  
+  // Snap to nearest level
+  snapToNearestLevel();
+}
+
+function snapToNearestLevel() {
+  const handle = document.getElementById('temperature-slider-handle');
+  const sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!handle || !sliderContainer) return;
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  const handleTop = handleRect.top - rect.top;
+  
+  // Define the three snap positions
+  const snapPositions = [
+    { level: 1, top: 20 },      // top-5 (20px from top)
+    { level: 2, top: 176 },     // top-44 (176px from top)
+    { level: 3, top: rect.height - 36 }  // bottom-5 (36px from bottom)
+  ];
+  
+  // Find the closest snap position
+  let closestLevel = 1;
+  let minDistance = Math.abs(handleTop - snapPositions[0].top);
+  
+  for (let i = 1; i < snapPositions.length; i++) {
+    const distance = Math.abs(handleTop - snapPositions[i].top);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestLevel = snapPositions[i].level;
+    }
+  }
+  
+  // Snap to the closest level
+  setTemperatureLevel(closestLevel);
+}
+
+// Setup slider cursor functionality
+function setupSliderCursor() {
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    // Ensure cursor is always visible on hover
+    handle.addEventListener('mouseenter', function() {
+      this.style.cursor = 'grab';
+    });
+    
+    handle.addEventListener('mouseleave', function() {
+      if (!isDraggingSlider) {
+        this.style.cursor = 'grab';
+      }
+    });
+    
+    handle.addEventListener('mousedown', function() {
+      this.style.cursor = 'grabbing';
+    });
+  }
+}
+
 function showSuccessMessage(message) {
   const messageDiv = document.createElement("div");
   messageDiv.className =
@@ -1350,6 +1492,147 @@ function showReefResetConfirmationModal() {
   resetButton.addEventListener("click", confirmReset);
 
   document.body.appendChild(modal);
+}
+
+// Temperature Slider Drag Functions
+function startSliderDrag(event) {
+  event.preventDefault();
+  
+  isDraggingSlider = true;
+  sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!sliderContainer) return;
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Get initial position
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  
+  if (event.type === 'mousedown') {
+    sliderStartY = event.clientY;
+  } else if (event.type === 'touchstart') {
+    sliderStartY = event.touches[0].clientY;
+  }
+  
+  sliderStartTop = handleRect.top - rect.top;
+  
+  // Add event listeners
+  document.addEventListener('mousemove', handleSliderDrag);
+  document.addEventListener('mouseup', stopSliderDrag);
+  document.addEventListener('touchmove', handleSliderDrag, { passive: false });
+  document.addEventListener('touchend', stopSliderDrag);
+  
+  // Add visual feedback
+  handle.style.transition = 'none';
+  handle.style.transform = 'scale(1.1) translateX(-50%)';
+}
+
+function handleSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  event.preventDefault();
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  let currentY;
+  
+  if (event.type === 'mousemove') {
+    currentY = event.clientY;
+  } else if (event.type === 'touchmove') {
+    currentY = event.touches[0].clientY;
+  }
+  
+  const deltaY = currentY - sliderStartY;
+  const newTop = sliderStartTop + deltaY;
+  
+  // Constrain to slider bounds
+  const minTop = 20; // top-5 equivalent
+  const maxTop = rect.height - 36; // bottom-5 equivalent (20px from bottom)
+  
+  const constrainedTop = Math.max(minTop, Math.min(maxTop, newTop));
+  
+  // Update handle position
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    handle.style.top = `${constrainedTop}px`;
+  }
+}
+
+function stopSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  isDraggingSlider = false;
+  
+  // Remove event listeners
+  document.removeEventListener('mousemove', handleSliderDrag);
+  document.removeEventListener('mouseup', stopSliderDrag);
+  document.removeEventListener('touchmove', handleSliderDrag);
+  document.removeEventListener('touchend', stopSliderDrag);
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Reset visual feedback
+  handle.style.transition = 'all 0.3s ease';
+  handle.style.transform = 'translateX(-50%)';
+  
+  // Snap to nearest level
+  snapToNearestLevel();
+}
+
+function snapToNearestLevel() {
+  const handle = document.getElementById('temperature-slider-handle');
+  const sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!handle || !sliderContainer) return;
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  const handleTop = handleRect.top - rect.top;
+  
+  // Define the three snap positions
+  const snapPositions = [
+    { level: 1, top: 20 },      // top-5 (20px from top)
+    { level: 2, top: 176 },     // top-44 (176px from top)
+    { level: 3, top: rect.height - 36 }  // bottom-5 (36px from bottom)
+  ];
+  
+  // Find the closest snap position
+  let closestLevel = 1;
+  let minDistance = Math.abs(handleTop - snapPositions[0].top);
+  
+  for (let i = 1; i < snapPositions.length; i++) {
+    const distance = Math.abs(handleTop - snapPositions[i].top);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestLevel = snapPositions[i].level;
+    }
+  }
+  
+  // Snap to the closest level
+  setTemperatureLevel(closestLevel);
+}
+
+// Setup slider cursor functionality
+function setupSliderCursor() {
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    // Ensure cursor is always visible on hover
+    handle.addEventListener('mouseenter', function() {
+      this.style.cursor = 'grab';
+    });
+    
+    handle.addEventListener('mouseleave', function() {
+      if (!isDraggingSlider) {
+        this.style.cursor = 'grab';
+      }
+    });
+    
+    handle.addEventListener('mousedown', function() {
+      this.style.cursor = 'grabbing';
+    });
+  }
 }
 
 // Reef Building Functions
@@ -1819,6 +2102,12 @@ function resetGameState() {
 // Hurricane Module Functions
 let currentTemperatureLevel = 1;
 
+// Slider drag state
+let isDraggingSlider = false;
+let sliderStartY = 0;
+let sliderStartTop = 0;
+let sliderContainer = null;
+
 function setTemperatureLevel(level) {
   currentTemperatureLevel = level;
   updateHurricaneBackground(level);
@@ -1830,16 +2119,15 @@ function setTemperatureLevel(level) {
 function updateSliderHandle(level) {
   const handle = document.getElementById('temperature-slider-handle');
   if (handle) {
-    // Position the handle based on the selected level
+    // Position the handle based on the selected level using pixel values
     const positions = {
-      1: 'top-5',      // Calm - top (green) - original position
-      2: 'top-44',    // Breezy - middle (yellow/orange)
-      3: 'bottom-5'    // Storm - bottom (red)
+      1: '20px',      // Calm - top (20px from top)
+      2: '176px',     // Breezy - middle (176px from top)
+      3: 'calc(100% - 36px)'    // Storm - bottom (36px from bottom)
     };
     
-    // Remove all position classes and add the correct one
-    handle.className = handle.className.replace(/top-\d+|top-1\/2|bottom-\d+/, '');
-    handle.className += ` ${positions[level]}`;
+    // Set the position directly using style
+    handle.style.top = positions[level];
     
     // Update handle border color based on level
     const borderColors = {
@@ -1848,7 +2136,9 @@ function updateSliderHandle(level) {
       3: 'border-red-400'      // Storm - red
     };
     
-    handle.className = handle.className.replace(/border-\w+-\d+/, borderColors[level]);
+    // Remove existing border color classes and add the new one
+    handle.className = handle.className.replace(/border-\w+-\d+/, '');
+    handle.className += ` ${borderColors[level]}`;
   }
 }
 
@@ -2068,4 +2358,145 @@ function showHurricaneResetConfirmationModal() {
   resetButton.addEventListener("click", confirmReset);
 
   document.body.appendChild(modal);
+}
+
+// Temperature Slider Drag Functions
+function startSliderDrag(event) {
+  event.preventDefault();
+  
+  isDraggingSlider = true;
+  sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!sliderContainer) return;
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Get initial position
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  
+  if (event.type === 'mousedown') {
+    sliderStartY = event.clientY;
+  } else if (event.type === 'touchstart') {
+    sliderStartY = event.touches[0].clientY;
+  }
+  
+  sliderStartTop = handleRect.top - rect.top;
+  
+  // Add event listeners
+  document.addEventListener('mousemove', handleSliderDrag);
+  document.addEventListener('mouseup', stopSliderDrag);
+  document.addEventListener('touchmove', handleSliderDrag, { passive: false });
+  document.addEventListener('touchend', stopSliderDrag);
+  
+  // Add visual feedback
+  handle.style.transition = 'none';
+  handle.style.transform = 'scale(1.1) translateX(-50%)';
+}
+
+function handleSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  event.preventDefault();
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  let currentY;
+  
+  if (event.type === 'mousemove') {
+    currentY = event.clientY;
+  } else if (event.type === 'touchmove') {
+    currentY = event.touches[0].clientY;
+  }
+  
+  const deltaY = currentY - sliderStartY;
+  const newTop = sliderStartTop + deltaY;
+  
+  // Constrain to slider bounds
+  const minTop = 20; // top-5 equivalent
+  const maxTop = rect.height - 36; // bottom-5 equivalent (20px from bottom)
+  
+  const constrainedTop = Math.max(minTop, Math.min(maxTop, newTop));
+  
+  // Update handle position
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    handle.style.top = `${constrainedTop}px`;
+  }
+}
+
+function stopSliderDrag(event) {
+  if (!isDraggingSlider || !sliderContainer) return;
+  
+  isDraggingSlider = false;
+  
+  // Remove event listeners
+  document.removeEventListener('mousemove', handleSliderDrag);
+  document.removeEventListener('mouseup', stopSliderDrag);
+  document.removeEventListener('touchmove', handleSliderDrag);
+  document.removeEventListener('touchend', stopSliderDrag);
+  
+  const handle = document.getElementById('temperature-slider-handle');
+  if (!handle) return;
+  
+  // Reset visual feedback
+  handle.style.transition = 'all 0.3s ease';
+  handle.style.transform = 'translateX(-50%)';
+  
+  // Snap to nearest level
+  snapToNearestLevel();
+}
+
+function snapToNearestLevel() {
+  const handle = document.getElementById('temperature-slider-handle');
+  const sliderContainer = document.querySelector('.relative.h-96.rounded-\\[22px\\]');
+  
+  if (!handle || !sliderContainer) return;
+  
+  const rect = sliderContainer.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+  const handleTop = handleRect.top - rect.top;
+  
+  // Define the three snap positions
+  const snapPositions = [
+    { level: 1, top: 20 },      // top-5 (20px from top)
+    { level: 2, top: 176 },     // top-44 (176px from top)
+    { level: 3, top: rect.height - 36 }  // bottom-5 (36px from bottom)
+  ];
+  
+  // Find the closest snap position
+  let closestLevel = 1;
+  let minDistance = Math.abs(handleTop - snapPositions[0].top);
+  
+  for (let i = 1; i < snapPositions.length; i++) {
+    const distance = Math.abs(handleTop - snapPositions[i].top);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestLevel = snapPositions[i].level;
+    }
+  }
+  
+  // Snap to the closest level
+  setTemperatureLevel(closestLevel);
+}
+
+// Setup slider cursor functionality
+function setupSliderCursor() {
+  const handle = document.getElementById('temperature-slider-handle');
+  if (handle) {
+    // Ensure cursor is always visible on hover
+    handle.addEventListener('mouseenter', function() {
+      this.style.cursor = 'grab';
+    });
+    
+    handle.addEventListener('mouseleave', function() {
+      if (!isDraggingSlider) {
+        this.style.cursor = 'grab';
+      }
+    });
+    
+    handle.addEventListener('mousedown', function() {
+      this.style.cursor = 'grabbing';
+    });
+  }
 }

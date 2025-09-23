@@ -126,6 +126,19 @@
         border-width: 3px;
       }
 
+      /* Temperature Slider Handle Styles */
+      #temperature-slider-handle {
+        cursor: grab !important;
+      }
+      
+      #temperature-slider-handle:hover {
+        cursor: grab !important;
+      }
+      
+      #temperature-slider-handle:active {
+        cursor: grabbing !important;
+      }
+
       /* Custom range slider styles */
       input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
@@ -1808,7 +1821,6 @@
     </div>
 
     <!-- Hurricane Watch Module -->
-    <!-- Hurricane Watch Module -->
     <div
       id="hurricane-module"
       class="screen hidden"
@@ -1989,8 +2001,12 @@
             <!-- White Circular Handle -->
             <div
               id="temperature-slider-handle"
-              class="absolute left-7 top-5 w-8 h-8 bg-white rounded-full border-2 border-blue-400 shadow-lg transform -translate-x-1/2 transition-all duration-300 z-10"
+              class="absolute left-7 top-5 w-8 h-8 bg-white rounded-full border-2 border-blue-400 shadow-lg transform -translate-x-1/2 transition-all duration-300 z-30 cursor-grab active:cursor-grabbing"
+              onmousedown="startSliderDrag(event)"
+              ontouchstart="startSliderDrag(event)"
             ></div>
+            
+            <!-- Invisible clickable areas for each level (only when not dragging) -->
             <div
               class="absolute left-7 top-5 w-8 h-8 transform -translate-x-1/2 transition-all duration-300 cursor-pointer z-20"
               onclick="setTemperatureLevel(1)"
