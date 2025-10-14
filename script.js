@@ -2143,15 +2143,16 @@ function updateSliderHandle(level) {
 }
 
 function updateHurricaneBackground(level) {
-  const hurricaneModule = document.getElementById("hurricane-module");
+  const videoElement = document.getElementById("hurricane-bg-video");
   const backgrounds = {
-    1: "assets/thirdmodule/breezy.jpg", // Calm
-    2: "assets/thirdmodule/calm.jpg",  // Breezy  
-    3: "assets/thirdmodule/storm.jpg" // Storm
+    1: "assets/thirdmodule/calm (2).mp4", 
+    2: "assets/thirdmodule/breeze (2).mp4", // Breezy  
+    3: "assets/thirdmodule/storm (2).mp4"   // Storm
   };
-  
-  if (hurricaneModule && backgrounds[level]) {
-    hurricaneModule.style.backgroundImage = `url('${backgrounds[level]}')`;
+
+  if (videoElement && backgrounds[level]) {
+    videoElement.src = backgrounds[level];
+    videoElement.load(); // Reload the video with new source
   }
 }
 
